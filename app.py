@@ -5,7 +5,7 @@ from flask_modus import Modus
 
 app = Flask(__name__)
 
-if os.environ.get('env') == 'production':
+if os.environ.get('ENV') == 'production':
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     debug = False
 else:
