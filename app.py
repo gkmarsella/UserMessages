@@ -5,7 +5,12 @@ from flask_modus import Modus
 
 app = Flask(__name__)
 
-
+if os.environ.get('env') == 'production':
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    debug = False
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/flask-sqlalchemy'
+    debug = True
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 modus = Modus(app)
@@ -116,12 +121,7 @@ def message_edit(id, message_id):
     return render_template('edit_message.html', id=id, message=Message.query.get(message_id))
 
 
-if os.environ.get('env') == 'production':
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-    debug = False
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/flask-sqlalchemy'
-    debug = True
+
 
 
 
