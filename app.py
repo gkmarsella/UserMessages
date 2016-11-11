@@ -4,7 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_modus import Modus
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/flask-sqlalchemy'
+
+
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 modus = Modus(app)
 db = SQLAlchemy(app)
@@ -115,8 +117,10 @@ def message_edit(id, message_id):
 
 
 if os.environ.get('env') == 'production':
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
     debug = False
 else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/flask-sqlalchemy'
     debug = True
 
 
